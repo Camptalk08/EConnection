@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.econnect.dto.PlansResponseDto;
@@ -15,7 +15,6 @@ import com.example.econnect.service.ConnectionService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/connections")
 @Slf4j
 public class ConnectionsController {
 	
@@ -29,12 +28,19 @@ public class ConnectionsController {
 	 *         This method will fetch all the plans available for the subscriber.
 	 * @return PlansResponseDto - list of all the available plans talktime, charges
 	 * 		   & plans
-	 */
+	 **/
 	@GetMapping("/plans")
 	public ResponseEntity<List<PlansResponseDto>> getAllThePlans() {
 		log.info("Inside getAllThePlans method");
 		List<PlansResponseDto> response = connectionService.getAllThePlans();
 		return new ResponseEntity<List<PlansResponseDto>>(response, HttpStatus.OK);
+	}
+		
+	@GetMapping("/connection/{Id}")
+	public ResponseEntity<String> viewConnectionStatus(@PathVariable("Id") int id){
+		String status=connectionService.connectionStatus(id);
+		return new ResponseEntity<String>(status,HttpStatus.OK);
+
 	}
 
 }

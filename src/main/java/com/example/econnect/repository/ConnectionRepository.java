@@ -6,5 +6,7 @@ import com.example.econnect.entity.Connection;
 
 
 public interface ConnectionRepository extends JpaRepository<Connection, Integer> {
+	
+	public Connection findBySubscriber(int id);
 
 }

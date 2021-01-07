@@ -23,9 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class ConnectionServiceImpl implements ConnectionService {
+
 	@Autowired
 	PlansRepository plansRepository;
-
 	@Autowired
 	ConnectionRequestRepository connectionRequestRepository;
 
@@ -49,20 +49,26 @@ public class ConnectionServiceImpl implements ConnectionService {
 
 	@Scheduled(fixedRate = 10000)
 	public void enableConnection() {
-		List<Connection> connection=connectionRepository.findAll();
-		Numbers num=null;
-	    for (Connection connectionEnable : connection) {
-			if(connectionEnable.getStatus().equalsIgnoreCase("APPROVED"))
-			{
-				connectionEnable.setStatus("CONNCTION ESTABLISHED");
-			     num=	numberRepository.findByMobileNumberId(connectionEnable.getNumber());
-			    num.setStatus("ALLOTED");
-			    numberRepository.save(num);
-			    connectionRepository.save(connectionEnable);
+		List<Connection> connection = connectionRepository.findAll();
+		Numbers num = null;
+		for (Connection connectionEnable : connection) {
+			if (connectionEnable.getStatus().equalsIgnoreCase("APPROVED")) {
+				connectionEnable.setStatus("CONNECTION ESTABLISHED");
+				num = numberRepository.findByMobileNumberId(connectionEnable.getNumber());
+				num.setStatus("ALLOTED");
+				numberRepository.save(num);
+				connectionRepository.save(connectionEnable);
+
 			}
-			
-			
+
 		}
+	}
+
+	@Override
+	public String connectionStatus(int id) {
+
+		return connectionRepository.findBySubscriber(id).getStatus();
+
 	}
 
 }

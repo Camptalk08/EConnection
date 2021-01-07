@@ -6,6 +6,8 @@ import com.example.econnect.dto.PlansResponseDto;
 
 public interface ConnectionService {
 	
+	public String connectionStatus(int id);
+	
 	
 
 	List<PlansResponseDto> getAllThePlans();
