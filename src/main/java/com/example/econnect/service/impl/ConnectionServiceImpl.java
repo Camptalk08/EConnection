@@ -5,10 +5,16 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.example.econnect.dto.PlansResponseDto;
+import com.example.econnect.entity.Connection;
+import com.example.econnect.entity.Numbers;
 import com.example.econnect.entity.Plan;
+import com.example.econnect.repository.ConnectionRepository;
+import com.example.econnect.repository.ConnectionRequestRepository;
+import com.example.econnect.repository.NumberRepository;
 import com.example.econnect.repository.PlansRepository;
 import com.example.econnect.service.ConnectionService;
 
@@ -20,6 +26,15 @@ public class ConnectionServiceImpl implements ConnectionService {
 	@Autowired
 	PlansRepository plansRepository;
 
+	@Autowired
+	ConnectionRequestRepository connectionRequestRepository;
+
+	@Autowired
+	ConnectionRepository connectionRepository;
+
+	@Autowired
+	NumberRepository numberRepository;
+
 	@Override
 	public List<PlansResponseDto> getAllThePlans() {
 		log.info("Inside get all plans method which shows all the available plans");
@@ -30,6 +45,24 @@ public class ConnectionServiceImpl implements ConnectionService {
 			return plansResponseDto;
 		}).collect(Collectors.toList());
 		return listplansResponseDtos;
+	}
+
+	@Scheduled(fixedRate = 10000)
+	public void enableConnection() {
+		List<Connection> connection=connectionRepository.findAll();
+		Numbers num=null;
+	    for (Connection connectionEnable : connection) {
+			if(connectionEnable.getStatus().equalsIgnoreCase("APPROVED"))
+			{
+				connectionEnable.setStatus("CONNCTION ESTABLISHED");
+			     num=	numberRepository.findByMobileNumberId(connectionEnable.getNumber());
+			    num.setStatus("ALLOTED");
+			    numberRepository.save(num);
+			    connectionRepository.save(connectionEnable);
+			}
+			
+			
+		}
 	}
 
 }

@@ -14,14 +14,14 @@ import lombok.Setter;
 @Getter
 @Table
 public class Subscriber {
-		@Id
-		@GeneratedValue(strategy = GenerationType.AUTO)
-		private Integer subcriberId;
-		private String name;
-		private String gender;
-		private String adharcardNumber;
-		private Integer age;
-		private String email;
-		private Long alernate_mobile_number;
-		private String password;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer subcriberId;
+	private String name;
+	private String gender;
+	private String adharcardNumber;
+	private Integer age;
+	private String email;
+	private Long alernate_mobile_number;
+	private String password;
 }
