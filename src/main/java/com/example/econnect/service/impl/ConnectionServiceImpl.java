@@ -40,9 +40,11 @@ public class ConnectionServiceImpl implements ConnectionService{
 				connectionEnable.setStatus("CONNCTION ESTABLISHED");
 			     num=	numberRepository.findByMobileNumberId(connectionEnable.getNumber());
 			    num.setStatus("ALLOTED");
+			    numberRepository.save(num);
+			    connectionRepository.save(connectionEnable);
 			}
-			connectionRepository.save(connectionEnable);
-			numberRepository.save(num);
+			
+			
 		}
 		
 	}
