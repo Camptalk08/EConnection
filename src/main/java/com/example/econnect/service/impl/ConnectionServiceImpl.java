@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class ConnectionServiceImpl implements ConnectionService{
+public class ConnectionServiceImpl implements ConnectionService{ 
 	@Autowired
 	ConnectionRequestRepository connectionRequestRepository;
 	
@@ -42,10 +42,19 @@ public class ConnectionServiceImpl implements ConnectionService{
 			    num.setStatus("ALLOTED");
 			    numberRepository.save(num);
 			    connectionRepository.save(connectionEnable);
+			    
+			    
 			}
 			
 			
 		}
+		
+	}
+
+	@Override
+	public String connectionStatus(int id) {
+		
+		return connectionRepository.findBySubscriber(id).getStatus();
 		
 	}
 
