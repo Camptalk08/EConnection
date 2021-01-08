@@ -9,8 +9,9 @@ import com.example.econnect.entity.Connection;
 
 @Repository
 public interface ConnectionRepository extends JpaRepository<Connection, Integer> {
-	
-Optional<Connection> findByMobileNumberId(int mobileId);	
-	public Connection findBySubscriber(int id);
+
+	Optional<Connection> findByMobileNumberId(int mobileId);
+
+	public Optional<Connection> findBySubscriber(int id);
 
 }

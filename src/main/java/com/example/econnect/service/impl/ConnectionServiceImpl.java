@@ -139,8 +139,17 @@ public class ConnectionServiceImpl implements ConnectionService {
 
 	@Override
 	public String connectionStatus(int id) {
+      Optional<Connection> user=connectionRepository.findBySubscriber(id);
+      String status="";
+      if(user.isPresent())
+      {
+    	  status=  user.get().getStatus();
+      }
+      else {
 
-		return connectionRepository.findBySubscriber(id).getStatus();
+    	  //throw exception
+      }
+		return status;
 
 	}
 
