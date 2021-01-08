@@ -2,6 +2,7 @@ package com.example.econnect.service;
 
 import java.util.List;
 
+import com.example.econnect.dto.NumberResponseDto;
 import com.example.econnect.dto.PlansResponseDto;
 
 public interface ConnectionService {
@@ -11,5 +12,6 @@ public interface ConnectionService {
 	
 
 	List<PlansResponseDto> getAllThePlans();
+	List<NumberResponseDto> getAllTheNumbers();
 
 }

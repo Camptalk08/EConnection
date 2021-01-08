@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.example.econnect.dto.NumberResponseDto;
 import com.example.econnect.dto.PlansResponseDto;
 import com.example.econnect.entity.Connection;
 import com.example.econnect.entity.Numbers;
@@ -69,6 +70,18 @@ public class ConnectionServiceImpl implements ConnectionService {
 
 		return connectionRepository.findBySubscriber(id).getStatus();
 
+	}
+
+	@Override
+	public List<NumberResponseDto> getAllTheNumbers() {
+		log.info("List of all mobile numbers");
+		List<Numbers> numberResponse = numberRepository.findAll();
+		List<NumberResponseDto> listnumberResponseDto = numberResponse.stream().filter(numberAvailable->numberAvailable.getStatus().equals("AVAILABLE")).map(listOfNumbers -> {
+			NumberResponseDto numberResponseDto = new NumberResponseDto();
+			BeanUtils.copyProperties(listOfNumbers, numberResponseDto);
+			return numberResponseDto;
+		}).collect(Collectors.toList());
+		return listnumberResponseDto;
 	}
 
 }

@@ -55,14 +55,13 @@ class ConnectionServiceImplTest {
 	}
 
 	@Test
-	void testUpadateRequestStatus() {
-		//WHEN
+	void testGetAllThePlans() {
+		// WHEN
 		Mockito.when(plansRepository.findAll()).thenReturn(listPlans);
 		List<PlansResponseDto> actual = connectionServiceImpl.getAllThePlans();
 		assertNotNull(actual);
 		// THEN
 		Assertions.assertEquals(actual.size(), plansResponseDtos.size());
-
 	}
 
 }

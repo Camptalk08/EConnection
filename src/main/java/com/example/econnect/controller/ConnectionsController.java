@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.econnect.dto.NumberResponseDto;
 import com.example.econnect.dto.PlansResponseDto;
 import com.example.econnect.service.ConnectionService;
 
@@ -21,6 +22,13 @@ public class ConnectionsController {
 	@Autowired
 	ConnectionService connectionService;
 	
+	@GetMapping("/numbers")
+	public ResponseEntity<List<NumberResponseDto>> getAllTheMobileNumbers() {
+		log.info("List of mobile numbers");
+		List<NumberResponseDto> response = connectionService.getAllTheNumbers();
+		return new ResponseEntity<List<NumberResponseDto>>(response, HttpStatus.OK);
+	}
+	
 	/**
 	 * 
 	 * @author Ajith
@@ -31,7 +39,7 @@ public class ConnectionsController {
 	 **/
 	@GetMapping("/plans")
 	public ResponseEntity<List<PlansResponseDto>> getAllThePlans() {
-		log.info("Inside getAllThePlans method");
+		//log.info("Inside getAllThePlans method");
 		List<PlansResponseDto> response = connectionService.getAllThePlans();
 		return new ResponseEntity<List<PlansResponseDto>>(response, HttpStatus.OK);
 	}

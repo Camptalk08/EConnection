@@ -21,6 +21,6 @@ public class Numbers {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer mobileNumberId;
-	private Integer mobileNumber;
+	private Long mobileNumber;
 	private String status;
 }
