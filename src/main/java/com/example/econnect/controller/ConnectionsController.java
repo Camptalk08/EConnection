@@ -31,7 +31,7 @@ public class ConnectionsController {
 	 **/
 	@GetMapping("/plans")
 	public ResponseEntity<List<PlansResponseDto>> getAllThePlans() {
-		log.info("Inside getAllThePlans method");
+		//log.info("Inside getAllThePlans method");
 		List<PlansResponseDto> response = connectionService.getAllThePlans();
 		return new ResponseEntity<List<PlansResponseDto>>(response, HttpStatus.OK);
 	}

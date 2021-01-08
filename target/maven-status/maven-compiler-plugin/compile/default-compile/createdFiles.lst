@@ -1,8 +1,15 @@
+com\example\econnect\repository\PlansRepository.class
 com\example\econnect\ServletInitializer.class
+com\example\econnect\repository\ConnectionRepository.class
 com\example\econnect\controller\ConnectionsController.class
 com\example\econnect\EconnectApplication.class
-com\example\econnect\service\impl\ConnectionServiceImpl.class
 com\example\econnect\config\SwaggerConfig.class
 com\example\econnect\entity\Subscriber.class
+com\example\econnect\entity\Plan.class
+com\example\econnect\entity\Connection.class
+com\example\econnect\entity\Numbers.class
+com\example\econnect\repository\NumberRepository.class
+com\example\econnect\service\impl\ConnectionServiceImpl.class
 com\example\econnect\repository\ConnectionRequestRepository.class
+com\example\econnect\dto\PlansResponseDto.class
 com\example\econnect\service\ConnectionService.class
