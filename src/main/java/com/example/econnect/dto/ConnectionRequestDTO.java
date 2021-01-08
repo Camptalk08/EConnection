@@ -1,41 +1,20 @@
-package com.example.econnect.entity;
+package com.example.econnect.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import lombok.Getter;
-import lombok.Setter;
-
-@Entity
-@Setter
-@Getter
-@Table
-public class Subscriber {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer subcriberId;
+public class ConnectionRequestDTO {
 	private String name;
 	private String gender;
 	private String adharcardNumber;
 	private Integer age;
 	private String email;
-	public Long getAlernateMobileNumber() {
-		return alernateMobileNumber;
+	public Long getAlternateMobileNumber() {
+		return alternateMobileNumber;
 	}
-	public void setAlernateMobileNumber(Long alernateMobileNumber) {
-		this.alernateMobileNumber = alernateMobileNumber;
+	public void setAlternateMobileNumber(Long alternateMobileNumber) {
+		this.alternateMobileNumber = alternateMobileNumber;
 	}
-	private Long alernateMobileNumber;
+	private Long alternateMobileNumber;
 	private String password;
-	public Integer getSubcriberId() {
-		return subcriberId;
-	}
-	public void setSubcriberId(Integer subcriberId) {
-		this.subcriberId = subcriberId;
-	}
+	
 	public String getName() {
 		return name;
 	}
@@ -66,11 +45,11 @@ public class Subscriber {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
 	public String getPassword() {
 		return password;
 	}
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 }
