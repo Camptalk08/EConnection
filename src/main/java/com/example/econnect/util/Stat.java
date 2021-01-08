@@ -1,0 +1,7 @@
+package com.example.econnect.util;
+
+public enum Stat {
+	
+	IN_PROGRESS,APPROVED,REJECCTED,REFER_BACK,CONNECTION_ESTABLISH,ALLOTED,AVAILABLE
+
+}

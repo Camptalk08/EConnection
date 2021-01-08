@@ -18,7 +18,9 @@ import com.example.econnect.repository.ConnectionRequestRepository;
 import com.example.econnect.repository.NumberRepository;
 import com.example.econnect.repository.PlansRepository;
 import com.example.econnect.service.ConnectionService;
+import com.example.econnect.util.Stat;
 
+import ch.qos.logback.core.status.Status;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -53,10 +55,10 @@ public class ConnectionServiceImpl implements ConnectionService {
 		List<Connection> connection = connectionRepository.findAll();
 		Numbers num = null;
 		for (Connection connectionEnable : connection) {
-			if (connectionEnable.getStatus().equalsIgnoreCase("APPROVED")) {
-				connectionEnable.setStatus("CONNECTION ESTABLISHED");
+			if (connectionEnable.getStatus().equals(Stat.APPROVED.toString())) {
+				connectionEnable.setStatus(Stat.CONNECTION_ESTABLISH.toString());
 				num = numberRepository.findByMobileNumberId(connectionEnable.getNumber());
-				num.setStatus("ALLOTED");
+				num.setStatus(Stat.ALLOTED.toString());
 				numberRepository.save(num);
 				connectionRepository.save(connectionEnable);
 
@@ -76,7 +78,7 @@ public class ConnectionServiceImpl implements ConnectionService {
 	public List<NumberResponseDto> getAllTheNumbers() {
 		log.info("List of all mobile numbers");
 		List<Numbers> numberResponse = numberRepository.findAll();
-		List<NumberResponseDto> listnumberResponseDto = numberResponse.stream().filter(numberAvailable->numberAvailable.getStatus().equals("AVAILABLE")).map(listOfNumbers -> {
+		List<NumberResponseDto> listnumberResponseDto = numberResponse.stream().filter(numberAvailable->numberAvailable.getStatus().equals(Stat.AVAILABLE.toString())).map(listOfNumbers -> {
 			NumberResponseDto numberResponseDto = new NumberResponseDto();
 			BeanUtils.copyProperties(listOfNumbers, numberResponseDto);
 			return numberResponseDto;
