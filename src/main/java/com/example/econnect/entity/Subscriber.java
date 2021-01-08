@@ -73,4 +73,7 @@ public class Subscriber {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	
+
 }

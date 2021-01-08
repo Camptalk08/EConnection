@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
+<<<<<<< HEAD
 	<name>EConnection</name>
+=======
+	<name>econnect</name>
+>>>>>>> 7793ddaf63de6136200892f7ed9f01dbf20e2593
 	<comment></comment>
 	<projects>
 	</projects>
@@ -16,7 +20,11 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
+<<<<<<< HEAD
 			<name>org.eclipse.m2e.core.maven2Builder</name>
+=======
+			<name>org.eclipse.wst.validation.validationbuilder</name>
+>>>>>>> 7793ddaf63de6136200892f7ed9f01dbf20e2593
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -26,7 +34,11 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
+<<<<<<< HEAD
 			<name>org.eclipse.wst.validation.validationbuilder</name>
+=======
+			<name>org.eclipse.m2e.core.maven2Builder</name>
+>>>>>>> 7793ddaf63de6136200892f7ed9f01dbf20e2593
 			<arguments>
 			</arguments>
 		</buildCommand>

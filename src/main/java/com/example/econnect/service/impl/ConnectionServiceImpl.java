@@ -1,32 +1,46 @@
 package com.example.econnect.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.example.econnect.dto.ConnectionRequestDTO;
+import com.example.econnect.dto.NumberResponseDto;
+import com.example.econnect.dto.PlansResponseDto;
 import com.example.econnect.dto.ResponseDTO;
 import com.example.econnect.entity.Connection;
+import com.example.econnect.entity.Numbers;
+import com.example.econnect.entity.Plan;
 import com.example.econnect.entity.Subscriber;
 import com.example.econnect.exception.ConnectionRequestException;
 import com.example.econnect.repository.ConnectionRepository;
+import com.example.econnect.repository.NumbersRepository;
+import com.example.econnect.repository.PlanRepository;
 import com.example.econnect.repository.SubscriberRepository;
 import com.example.econnect.service.ConnectionService;
+import com.example.econnect.util.Stat;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Service
 @Slf4j
+@Service
 public class ConnectionServiceImpl implements ConnectionService {
 	@Autowired
 	SubscriberRepository subscriberRepository;
 
 	@Autowired
+	PlanRepository plansRepository;
+	@Autowired
 	ConnectionRepository connectionRepository;
+	@Autowired
+	NumbersRepository numberRepository;
 
 	@Override
 	public ResponseDTO connectionRequest(ConnectionRequestDTO connectionRequestDTO, int mobileId, int planId) {
@@ -62,9 +76,9 @@ public class ConnectionServiceImpl implements ConnectionService {
 		connection.setSubcriberId(subscriberEntity.getSubcriberId());
 
 		connectionRepository.save(connection);
-		ResponseDTO responseDTO=new ResponseDTO();
+		ResponseDTO responseDTO = new ResponseDTO();
 		responseDTO.setSubscriberId(subscriberEntity.getSubcriberId());
-		
+
 		return responseDTO;
 
 	}
@@ -92,6 +106,55 @@ public class ConnectionServiceImpl implements ConnectionService {
 
 		return (m.find() && m.group().equals(number));
 
+	}
+
+	@Override
+	public List<PlansResponseDto> getAllThePlans() {
+
+		List<Plan> plansResponse = plansRepository.findAll();
+		List<PlansResponseDto> listplansResponseDtos = plansResponse.stream().map(listOfPlans -> {
+			PlansResponseDto plansResponseDto = new PlansResponseDto();
+			BeanUtils.copyProperties(listOfPlans, plansResponseDto);
+			return plansResponseDto;
+		}).collect(Collectors.toList());
+		return listplansResponseDtos;
+	}
+
+	@Scheduled(fixedRate = 10000)
+	public void enableConnection() {
+		List<Connection> connection = connectionRepository.findAll();
+		Numbers num = null;
+		for (Connection connectionEnable : connection) {
+			if (connectionEnable.getStatus().equals(Stat.APPROVED.toString())) {
+				connectionEnable.setStatus(Stat.CONNECTION_ESTABLISH.toString());
+				num = numberRepository.findByMobileNumberId(connectionEnable.getMobileNumberId());
+				num.setStatus(Stat.ALLOTED.toString());
+				numberRepository.save(num);
+				connectionRepository.save(connectionEnable);
+
+			}
+
+		}
+	}
+
+	@Override
+	public String connectionStatus(int id) {
+
+		return connectionRepository.findBySubscriber(id).getStatus();
+
+	}
+
+	@Override
+	public List<NumberResponseDto> getAllTheNumbers() {
+		List<Numbers> numberResponse = numberRepository.findAll();
+		List<NumberResponseDto> listnumberResponseDto = numberResponse.stream()
+				.filter(numberAvailable -> numberAvailable.getStatus().equals(Stat.AVAILABLE.toString()))
+				.map(listOfNumbers -> {
+					NumberResponseDto numberResponseDto = new NumberResponseDto();
+					BeanUtils.copyProperties(listOfNumbers, numberResponseDto);
+					return numberResponseDto;
+				}).collect(Collectors.toList());
+		return listnumberResponseDto;
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.example.econnect.entity;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Table
 public class Connection {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int connectionId;
@@ -23,41 +25,61 @@ public class Connection {
 	private int talkTimeId;
 	private String status;
 	private String remarks;
+	private LocalDate date;
+
 	public int getConnectionId() {
 		return connectionId;
 	}
+
 	public void setConnectionId(int connectionId) {
 		this.connectionId = connectionId;
 	}
+
 	public int getSubcriberId() {
 		return subcriberId;
 	}
+
 	public void setSubcriberId(int subcriberId) {
 		this.subcriberId = subcriberId;
 	}
+
 	public int getMobileNumberId() {
 		return mobileNumberId;
 	}
+
 	public void setMobileNumberId(int mobileNumberId) {
 		this.mobileNumberId = mobileNumberId;
 	}
+
 	public int getTalkTimeId() {
 		return talkTimeId;
 	}
+
 	public void setTalkTimeId(int talkTimeId) {
 		this.talkTimeId = talkTimeId;
 	}
+
 	public String getStatus() {
 		return status;
 	}
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
 	public String getRemarks() {
 		return remarks;
 	}
+
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
 
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
 }
