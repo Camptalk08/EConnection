@@ -76,7 +76,7 @@ public class ConnectionServiceImpl implements ConnectionService {
 	public List<NumberResponseDto> getAllTheNumbers() {
 		log.info("List of all mobile numbers");
 		List<Numbers> numberResponse = numberRepository.findAll();
-		List<NumberResponseDto> listnumberResponseDto = numberResponse.stream().map(listOfNumbers -> {
+		List<NumberResponseDto> listnumberResponseDto = numberResponse.stream().filter(numberAvailable->numberAvailable.getStatus().equals("AVAILABLE")).map(listOfNumbers -> {
 			NumberResponseDto numberResponseDto = new NumberResponseDto();
 			BeanUtils.copyProperties(listOfNumbers, numberResponseDto);
 			return numberResponseDto;
