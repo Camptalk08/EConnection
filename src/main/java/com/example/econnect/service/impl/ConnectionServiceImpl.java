@@ -1,8 +1,10 @@
 package com.example.econnect.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.aop.ThrowsAdvice;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -69,8 +71,17 @@ public class ConnectionServiceImpl implements ConnectionService {
 
 	@Override
 	public String connectionStatus(int id) {
+      Optional<Connection> user=connectionRepository.findBySubscriber(id);
+      String status="";
+      if(user.isPresent())
+      {
+    	  status=  user.get().getStatus();
+      }
+      else {
 
-		return connectionRepository.findBySubscriber(id).getStatus();
+    	  //throw exception
+      }
+		return status;
 
 	}
 
