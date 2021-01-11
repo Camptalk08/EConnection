@@ -63,6 +63,8 @@ public class ConnectionServiceImpl implements ConnectionService {
 		Optional<Connection> optConnection = connectionRepository.findByMobileNumberId(mobileId);
 
 		if (optConnection.isPresent()) {
+			
+			
 			throw new ConnectionRequestException("Sorry this mobile number is not available");
 		}
 
@@ -72,7 +74,7 @@ public class ConnectionServiceImpl implements ConnectionService {
 		connection.setMobileNumberId(mobileId);
 		connection.setTalkTimeId(planId);
 		connection.setRemarks("");
-		connection.setStatus("Inprogress");
+		connection.setStatus(Stat.IN_PROGRESS.toString());
 		connection.setSubcriberId(subscriberEntity.getSubcriberId());
 
 		connectionRepository.save(connection);
@@ -141,6 +143,7 @@ public class ConnectionServiceImpl implements ConnectionService {
 	public String connectionStatus(int id) {
       Optional<Connection> user=connectionRepository.findBySubcriberId(id);
       String status="";
+     
       if(user.isPresent())
       {
     	  status=  user.get().getStatus();
