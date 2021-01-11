@@ -1,1 +1,3 @@
+com\example\econnect\controller\ConnectionsControllerTest.class
 com\example\econnect\EconnectApplicationTests.class
+com\example\econnect\service\impl\ConnectionServiceImplTest.class

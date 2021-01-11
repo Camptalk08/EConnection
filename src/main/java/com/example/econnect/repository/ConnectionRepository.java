@@ -12,6 +12,6 @@ public interface ConnectionRepository extends JpaRepository<Connection, Integer>
 
 	Optional<Connection> findByMobileNumberId(int mobileId);
 
-	public Optional<Connection> findBySubscriber(int id);
+	public Optional<Connection> findBySubcriberId(int id);
 
 }
