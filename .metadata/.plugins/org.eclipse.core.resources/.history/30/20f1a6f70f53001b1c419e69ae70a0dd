@@ -1,0 +1,28 @@
+package com.example.econnect.service.impl;
+
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import com.example.econnect.repository.ConnectionRepository;
+import com.example.econnect.repository.SubscriberRepository;
+
+@RunWith(MockitoJUnitRunner.class)
+public class ConnectionRequestServiceTest {
+
+	@Mock
+	SubscriberRepository subscriberRepository;
+
+	@Mock
+	ConnectionRepository connectionRepository;
+
+	@InjectMocks
+	ConnectionServiceImpl connectionServiceImpl;
+
+	@Before
+	public void setup() {
+
+	}
+
+}
