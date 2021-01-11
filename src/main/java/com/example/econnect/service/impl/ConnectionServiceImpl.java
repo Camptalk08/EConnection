@@ -147,7 +147,7 @@ public class ConnectionServiceImpl implements ConnectionService {
       }
       else {
 
-    	  //throw exception
+    	  throw new ConnectionRequestException("User do not Exists With This Id");
       }
 		return status;
 
