@@ -1,6 +1,7 @@
 package com.example.econnect.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.example.econnect.dto.ConnectionRequestDTO;
 import com.example.econnect.dto.NumberResponseDto;
@@ -17,14 +18,14 @@ public interface ConnectionService {
 
 	List<NumberResponseDto> getAllTheNumbers();
 
-	public ResponseDTO connectionRequest(ConnectionRequestDTO connectionRequestDTO, int mobileId, int planId);
+	public Optional<ResponseDTO> connectionRequest(ConnectionRequestDTO connectionRequestDTO, int mobileId, int planId);
 
 	Integer addAdmin(Admin admin);
 
 	List<Connection> getConnections();
-	
+
 	Connection getConnectionRequest(String sub_no);
 
-    String updateConnectionStatus(Connection connection);
+	String updateConnectionStatus(Connection connection);
 
 }

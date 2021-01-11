@@ -1,6 +1,7 @@
 package com.example.econnect.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,13 +13,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.econnect.dto.ActionModelDTO;
 import com.example.econnect.dto.ConnectionRequestDTO;
 import com.example.econnect.dto.NumberResponseDto;
 import com.example.econnect.dto.PlansResponseDto;
 import com.example.econnect.dto.ResponseDTO;
 import com.example.econnect.entity.Admin;
 import com.example.econnect.entity.Connection;
-import com.example.econnect.model.ActionModel;
 import com.example.econnect.service.ConnectionService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -68,7 +69,7 @@ public class ConnectionsController {
 	}
 
 	@PostMapping("/subscribers/{mobileId}/{planId}")
-	public ResponseEntity<ResponseDTO> connectionRequest(@RequestBody ConnectionRequestDTO connectionRequestDTO,
+	public ResponseEntity<Optional<ResponseDTO>> connectionRequest(@RequestBody ConnectionRequestDTO connectionRequestDTO,
 			@PathVariable int mobileId, @PathVariable int planId) {
 
 		return new ResponseEntity<>(connectionService.connectionRequest(connectionRequestDTO, mobileId, planId),
@@ -87,7 +88,7 @@ public class ConnectionsController {
 	}
 
 	@PutMapping("/action/{sub_no}")
-	public String updateConnectionStatus(@PathVariable("sub_no") String sub_no, @RequestBody ActionModel model) {
+	public String updateConnectionStatus(@PathVariable("sub_no") String sub_no, @RequestBody ActionModelDTO model) {
 
 		Connection connection = connectionService.getConnectionRequest(sub_no);
 		if (model.getStatus() != null

@@ -25,7 +25,7 @@ import com.example.econnect.repository.AdminRepository;
 import com.example.econnect.repository.ConnectionRepository;
 import com.example.econnect.repository.NumbersRepository;
 import com.example.econnect.repository.PlanRepository;
-import com.example.econnect.repository.Repository;
+import com.example.econnect.repository.RequestRepository;
 import com.example.econnect.repository.SubscriberRepository;
 import com.example.econnect.service.ConnectionService;
 import com.example.econnect.util.Stat;
@@ -47,10 +47,10 @@ public class ConnectionServiceImpl implements ConnectionService {
 	@Autowired
 	AdminRepository adminRepository;
 	@Autowired
-	Repository repository;
+	RequestRepository repository;
 
 	@Override
-	public ResponseDTO connectionRequest(ConnectionRequestDTO connectionRequestDTO, int mobileId, int planId) {
+	public Optional<ResponseDTO> connectionRequest(ConnectionRequestDTO connectionRequestDTO, int mobileId, int planId) {
 
 		Subscriber subscriber = new Subscriber();
 		BeanUtils.copyProperties(connectionRequestDTO, subscriber);
@@ -82,12 +82,12 @@ public class ConnectionServiceImpl implements ConnectionService {
 		connection.setRemarks("");
 		connection.setStatus(Stat.IN_PROGRESS.toString());
 		connection.setSubcriberId(subscriberEntity.getSubcriberId());
-
+         System.out.println("");
 		connectionRepository.save(connection);
 		ResponseDTO responseDTO = new ResponseDTO();
 		responseDTO.setSubscriberId(subscriberEntity.getSubcriberId());
 
-		return responseDTO;
+		return Optional.of(responseDTO);
 
 	}
 
@@ -191,17 +191,30 @@ public class ConnectionServiceImpl implements ConnectionService {
 
 	@Override
 	public Connection getConnectionRequest(String sub_no) {
-		if (sub_no != null) {
-			return repository.findBySubscriberId(Integer.parseInt(sub_no));
-		} else {
-			return null;
-		}
+//		if (sub_no != null) {
+//			return connectionRepository.findBySubcriberId(Integer.parseInt(sub_no));
+//		} else {
+//			return null;
+//		}
+		
+	Optional<Connection> check=connectionRepository.findBySubcriberId(Integer.parseInt(sub_no));
+	Connection con=null;
+	if(check.isPresent())
+	{
+	
+		con=check.get();
+	}
+	else
+	{
+		throw new ConnectionRequestException("Connection not available");
+	}
+	return con;
 	}
 
 	@Override
 	public String updateConnectionStatus(Connection connection) {
 		if (connection != null) {
-			repository.save(connection);
+			connectionRepository.save(connection);
 			return "success";
 		} else {
 			return "failed";
