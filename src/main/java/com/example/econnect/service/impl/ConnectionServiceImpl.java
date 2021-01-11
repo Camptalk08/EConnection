@@ -15,14 +15,17 @@ import com.example.econnect.dto.ConnectionRequestDTO;
 import com.example.econnect.dto.NumberResponseDto;
 import com.example.econnect.dto.PlansResponseDto;
 import com.example.econnect.dto.ResponseDTO;
+import com.example.econnect.entity.Admin;
 import com.example.econnect.entity.Connection;
 import com.example.econnect.entity.Numbers;
 import com.example.econnect.entity.Plan;
 import com.example.econnect.entity.Subscriber;
 import com.example.econnect.exception.ConnectionRequestException;
+import com.example.econnect.repository.AdminRepository;
 import com.example.econnect.repository.ConnectionRepository;
 import com.example.econnect.repository.NumbersRepository;
 import com.example.econnect.repository.PlanRepository;
+import com.example.econnect.repository.Repository;
 import com.example.econnect.repository.SubscriberRepository;
 import com.example.econnect.service.ConnectionService;
 import com.example.econnect.util.Stat;
@@ -41,6 +44,10 @@ public class ConnectionServiceImpl implements ConnectionService {
 	ConnectionRepository connectionRepository;
 	@Autowired
 	NumbersRepository numberRepository;
+	@Autowired
+	AdminRepository adminRepository;
+	@Autowired
+	Repository repository;
 
 	@Override
 	public ResponseDTO connectionRequest(ConnectionRequestDTO connectionRequestDTO, int mobileId, int planId) {
@@ -63,8 +70,7 @@ public class ConnectionServiceImpl implements ConnectionService {
 		Optional<Connection> optConnection = connectionRepository.findByMobileNumberId(mobileId);
 
 		if (optConnection.isPresent()) {
-			
-			
+
 			throw new ConnectionRequestException("Sorry this mobile number is not available");
 		}
 
@@ -112,7 +118,7 @@ public class ConnectionServiceImpl implements ConnectionService {
 
 	@Override
 	public List<PlansResponseDto> getAllThePlans() {
-
+		log.info("Inside the service implementation  class for getting all the available plans");
 		List<Plan> plansResponse = plansRepository.findAll();
 		List<PlansResponseDto> listplansResponseDtos = plansResponse.stream().map(listOfPlans -> {
 			PlansResponseDto plansResponseDto = new PlansResponseDto();
@@ -141,23 +147,22 @@ public class ConnectionServiceImpl implements ConnectionService {
 
 	@Override
 	public String connectionStatus(int id) {
-      Optional<Connection> user=connectionRepository.findBySubcriberId(id);
-      String status="";
-     
-      if(user.isPresent())
-      {
-    	  status=  user.get().getStatus();
-      }
-      else {
+		Optional<Connection> user = connectionRepository.findBySubcriberId(id);
+		String status = "";
 
-    	  throw new ConnectionRequestException("User do not Exists With This Id");
-      }
+		if (user.isPresent()) {
+			status = user.get().getStatus();
+		} else {
+
+			throw new ConnectionRequestException("User do not Exists With This Id");
+		}
 		return status;
 
 	}
 
 	@Override
 	public List<NumberResponseDto> getAllTheNumbers() {
+		log.info("Getting all the available mobile numbers");
 		List<Numbers> numberResponse = numberRepository.findAll();
 		List<NumberResponseDto> listnumberResponseDto = numberResponse.stream()
 				.filter(numberAvailable -> numberAvailable.getStatus().equals(Stat.AVAILABLE.toString()))
@@ -167,6 +172,40 @@ public class ConnectionServiceImpl implements ConnectionService {
 					return numberResponseDto;
 				}).collect(Collectors.toList());
 		return listnumberResponseDto;
+	}
+
+	@Override
+	public Integer addAdmin(Admin admin) {
+		Admin adminUser = adminRepository.save(admin);
+		if (adminUser != null) {
+			return adminUser.getAdmin_id();
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public List<Connection> getConnections() {
+		return repository.findAll();
+	}
+
+	@Override
+	public Connection getConnectionRequest(String sub_no) {
+		if (sub_no != null) {
+			return repository.findBySubscriberId(Integer.parseInt(sub_no));
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public String updateConnectionStatus(Connection connection) {
+		if (connection != null) {
+			repository.save(connection);
+			return "success";
+		} else {
+			return "failed";
+		}
 	}
 
 }
